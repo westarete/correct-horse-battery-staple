@@ -8654,6 +8654,7 @@ standings
 stands
 stanford
 stanley
+staple
 star
 starring
 stars
