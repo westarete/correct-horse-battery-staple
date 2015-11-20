@@ -2396,7 +2396,6 @@ cylinder
 cynthia
 cyprus
 czech
-daddy
 daemon
 daily
 dairy
@@ -4061,7 +4060,6 @@ gospel
 gossip
 gothic
 goto
-gotta
 gotten
 gourmet
 governance
@@ -6616,7 +6614,6 @@ pearson
 peas
 pediatric
 pedro
-peeing
 peer
 peers
 penalties
@@ -8247,7 +8244,6 @@ sharing
 shark
 sharon
 sharp
-shaved
 shaw
 shawn
 shed
@@ -8654,6 +8650,7 @@ standings
 stands
 stanford
 stanley
+staple
 star
 starring
 stars
