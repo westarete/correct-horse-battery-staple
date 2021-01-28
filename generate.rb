@@ -1,12 +1,65 @@
 #!/usr/bin/env ruby
+#
+require 'optparse'
+require 'pp'
 
-# Generate ten strong passwords that are easy to remember.
+# Generate strong passwords that are easy to remember.
 # https://xkcd.com/936/
-
 words = DATA.readlines.map(&:strip)
-10.times do
-  puts 4.times.collect { words.sample }.join(" ")
+
+options = {}
+optparse = OptionParser.new do |opts|
+  opts.banner = 'Usage: generate.rb [options]'
+
+  options[:num_words] = 4
+  opts.on('-w', '--words N', Integer, 'Number of words') do |num_words|
+    options[:num_words] = num_words
+  end
+
+  options[:min_length] = 0
+  opts.on('-l', '--minlength N', Integer,
+          'Minimum total length of password') do |min_length|
+    options[:min_length] = min_length
+  end
+
+  options[:max_length] = 100
+  opts.on('-L', '--maxlength N', Integer,
+          'Maximum total length of password') do |max_length|
+    options[:max_length] = max_length
+  end
+
+  options[:delimiter] = ' '
+  opts.on('-d', '--delimiter [string]',
+          'Delimiter between words') do |delimiter|
+    options[:delimiter] = delimiter
+  end
+
+  options[:num_passwords] = 10
+  opts.on('-n', '--numpasswords N', Integer,
+          'Number of passwords to generate') do |num_passwords|
+    options[:num_passwords] = num_passwords
+  end
+
+  opts.on('-h', '--help', 'Display this screen') do
+    puts opts
+    exit
+  end
 end
+optparse.parse!
+
+passwords = (1..100_000)
+  .lazy
+  .map { options[:num_words].times.collect { words.sample }.join(options[:delimiter]) }
+  .filter { |pw| options[:min_length] < pw.length && pw.length <= options[:max_length] }
+  .first(options[:num_passwords])
+
+if passwords.empty?
+  warn 'Could not find any passwords within your criteria:'
+  PP.pp(options, $stderr)
+  abort
+end
+
+passwords.each { |pw| puts pw }
 
 __END__
 aaron
