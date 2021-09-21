@@ -40,12 +40,25 @@ optparse = OptionParser.new do |opts|
     options[:num_passwords] = num_passwords
   end
 
+  options[:exclude] = ''
+  opts.on('-x', '--exclude [string]',
+          'Exclude these letters from the passwords') do |exclude|
+    options[:exclude] = exclude
+  end
+
+  opts.on('--dh',
+          'Use only the common letters between Colemak and Colemak-DH') do |dh_mode|
+    options[:exclude] << 'bgvdmh'
+  end
+
   opts.on('-h', '--help', 'Display this screen') do
     puts opts
     exit
   end
 end
 optparse.parse!
+
+words = words.reject { |w| w.match?(/[#{options[:exclude]}]/i) } if 0 < options[:exclude].length
 
 passwords = (1..100_000)
   .lazy
